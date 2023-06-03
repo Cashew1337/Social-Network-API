@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-const thoughtSchema = require('./Thought.js');
+const mongoose = require('mongoose')
+const { Schema, Types } = mongoose;
 
 const userSchema = new Schema(
     {
@@ -19,8 +19,8 @@ const userSchema = new Schema(
                 'Please add a valid email address.',
             ]
         },
-        thoughts: [thoughtSchema],
-        friends: [userSchema],
+        thoughts: [{ type: Types.ObjectId, ref: 'Thought' }],
+        friends: [{ type: Types.ObjectId, ref: 'User'}],
     },
     {
         toJSON: {
@@ -31,9 +31,9 @@ const userSchema = new Schema(
 
 userSchema.virtual('friendCount')
 .get(function () {
-    return this.friends;
+    return this.friends.length;
 });
 
-const User = model('user', userSchema);
+const User = mongoose.model('user', userSchema);
 
 module.exports = User;
