@@ -21,7 +21,7 @@ connection.once('open', async () => {
             thoughtText: getRandomThoughts(),
             username,
         });
-
+        
         users.push({
             username,
             email,
