@@ -89,49 +89,6 @@ module.exports = {
         }
     },
 
-    async addThought(req, res) {
-        console.log('You are adding a thought');
-        console.log(req.body);
-
-        try {
-            const user = await User.findOneAndUpdate(
-                { _id: req.params.userId },
-                { $addToSet: { thoughts: req.body } },
-                { runValidators: true, new: true }
-            );
-
-            if (!user) {
-                return res
-                    .status(404)
-                    .json({ message: 'No user found with that ID :(' });
-            }
-
-            res.json(user);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-    
-    async removeThought(req, res) {
-        try {
-            const user = await User.findOneAndUpdate(
-                { _id: req.params.userId },
-                { $pull: { thoughts: { thoughtId: req.params.thoughtId } } },
-                { runValidators: true, new: true }
-            );
-
-            if (!user) {
-                return res
-                    .status(404)
-                    .json({ message: 'No user found with that ID :(' });
-            }
-
-            res.json(user);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-
     async addFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(
